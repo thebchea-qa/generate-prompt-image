@@ -22,7 +22,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 400px;
         }
-        input[type="text"] {
+        input[type="text"], select {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
@@ -55,8 +55,14 @@
 <body>
 
 <div class="container">
-    <h2>API Message App</h2>
-    <input type="text" id="messageInput" placeholder="Enter your message">
+    <h2>Generate Prompt Image</h2>
+    <h3>Choose AI</h3>
+
+    <select id="apiSelector">
+        <option value="http://107.172.3.119:5001/api/Llama">Llama AI</option>
+        <option value="http://107.172.3.119:5002/api/Groq">Groq AI</option>
+    </select>
+    <input type="text" id="messageInput" placeholder="Enter your Image Type...">
     <button onclick="sendMessage()">Submit</button>
 
     <div class="result-box" id="resultBox">
@@ -67,6 +73,7 @@
 <script>
     async function sendMessage() {
         const message = document.getElementById("messageInput").value;
+        const apiUrl = document.getElementById("apiSelector").value;
         const resultBox = document.getElementById("resultBox");
 
         if (!message) {
@@ -75,7 +82,7 @@
         }
 
         try {
-            const response = await fetch("http://107.172.3.119:5001/api/Llama", {
+            const response = await fetch(apiUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
